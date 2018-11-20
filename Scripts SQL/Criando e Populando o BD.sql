@@ -1,4 +1,6 @@
 /* Lógico_1: */
+drop schema trabalhobd;
+create schema trabalhoBD;
 use trabalhoBD;
 CREATE TABLE Metro (
     inauguracao DATE,
@@ -11,7 +13,7 @@ CREATE TABLE Metro (
 
 CREATE TABLE BRT (
     passageiros INT,
-    quatEstacoes INT,
+    quantEstacoes INT,
     nomeEmpresa VARCHAR(20),
     tamanho INT,
     logo BLOB,
@@ -91,10 +93,32 @@ alter table estacao_metro add constraint FK_estacao_metro_1
     references metro (ID);
 
 
-insert into brt values(450000,163,'consórcio BRT',125,null,1);
+insert into brt values(450000,0,'consórcio BRT',125,null,1);
 /*após fazer esse insert precisa adicionar a imagem ainda*/
 
-insert into metro values(date("1979-03-01"), 41, 'Metro Rio', null, 1, 850000);
+insert into metro values(date("1979-03-01"), 0, 'Metro Rio', null, 1, 850000);
+
+/* adicionado por joyce */
+DELIMITER $$ 
+CREATE TRIGGER Tgr_Estacao_Metro_Insert AFTER INSERT ON estacao_metro
+FOR EACH ROW BEGIN
+UPDATE metro SET quantEstacoes = quantEstacoes  + 1 WHERE ID = NEW.fk_empresa_metro_ID;
+END $$
+CREATE TRIGGER Tgr_Estacao_Metro_Delete AFTER DELETE ON estacao_metro
+FOR EACH ROW BEGIN
+UPDATE metro SET quantEstacoes = quantEstacoes  - 1 WHERE ID = OLD.fk_empresa_metro_ID;
+END $$
+DELIMITER ; 
+DELIMITER $$ 
+CREATE TRIGGER Tgr_Estacao_Brt_Insert AFTER INSERT ON estacao_brt
+FOR EACH ROW BEGIN
+UPDATE brt SET quantEstacoes = quantEstacoes  + 1 WHERE ID = NEW.fk_empresa_brt_ID;
+END $$
+CREATE TRIGGER Tgr_Estacao_Brt_Delete AFTER DELETE ON estacao_brt
+FOR EACH ROW BEGIN
+UPDATE brt SET quantEstacoes = quantEstacoes  - 1 WHERE ID = OLD.fk_empresa_brt_ID;
+END $$
+DELIMITER ;
 
 insert into estacao_metro values(1,true,1,0,0,0,1,'Pavuna',null,1,1,1998,1);
 insert into estacao_metro values(1,1,1,0,0,0,2,'Engenheiro Rubens Paiva',null,1,0,1998,1);
@@ -510,4 +534,3 @@ insert into possui values(38,3,702.105,2016);	insert into possui values(38,3,331
 insert into possui values(39,3,942.571,2016);	insert into possui values(39,3,4576.24147975311,2017);
 insert into possui values(40,3,652.257,2016);	insert into possui values(40,3,3298.73254517411,2017);
 insert into possui values(41,3,2797.793,2016);	insert into possui values(41,3,10835.478865424,2017);
-
