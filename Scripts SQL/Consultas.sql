@@ -1,6 +1,6 @@
 
 /* Retornar o nome das estações que não foram construidas no ano de inauguração do metro
- * possui subconsulta aninhada
+ * possui operação sobre conjuntos (diferença)
  */
 use trabalhobd;
 
@@ -20,8 +20,11 @@ ON Linha.ID=RelacaoEstacaoMetro.fk_Linha_ID
 WHERE RelacaoEstacaoMetro.Ativo = true
 GROUP BY RelacaoEstacaoMetro.fk_Linha_ID;
 
+/* Informa as estações de BRT que possuem Bicicletario
+* Inclui apenas seleção e projeção
+*/
 SELECT Nome
-FROM Estacao_BRT
+FROM Estacao_Metro
 WHERE Bicicletario = true;
 
 /* Informa as estações de BRT que possuem mais de um corredor associado
@@ -35,11 +38,34 @@ FROM Estacao_BRT INNER JOIN
 ON corredor.estacaoBRTID = quantidade.estacaoBRTID) AS estacoes
 ON Estacao_BRT.id = estacoes.estacaoBRTID ORDER BY Estacao_BRT.Nome;
 
-
-SELECT corredor.Corredor, COUNT(Estacao_BRT.id)
-FROM corredor INNER JOIN Estacao_BRT ON Corredor.estacaoBRTID=Estacao_BRT.id
+/*Informa quantas estações ativas cada corredor do BRT possui
+* possui junção interna com duas relações
+*/
+CREATE VIEW BRT_Estacoes_Ativas AS
+SELECT Corredor.Corredor, COUNT(Estacao_BRT.id) as QuantAtivas
+FROM Corredor INNER JOIN Estacao_BRT ON Corredor.estacaoBRTID=Estacao_BRT.id
 WHERE Estacao_BRT.Ativo = true
-GROUP BY corredor.Corredor_PK;
+GROUP BY Corredor.Corredor_PK;
 
-select * from metro;
-select * from brt;
+/* Informa o total de pessoas transportadas pelo metro por ano
+* possui função de agregação
+*/
+SELECT ano, SUM(Transporta) as TotalPessoas
+FROM possui
+GROUP BY ano;
+
+
+SELECT *
+FROM Metro; 
+SELECT *
+FROM BRT;
+SELECT *
+FROM Estacao_Metro;  
+SELECT *
+FROM Estacao_BRT; 
+SELECT *
+FROM Linha;
+SELECT *
+FROM Corredor;
+SELECT *
+FROM possui;   
