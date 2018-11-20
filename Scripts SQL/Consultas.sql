@@ -14,7 +14,7 @@ WHERE year(Metro.inauguracao) = Estacao_Metro.DataInauguracao);
  * Possui função de agregação
  */
 SELECT Linha.nome, COUNT(fk_Estacao_Metro_id) as quant
-FROM Linha INNER JOIN (SELECT possui.fk_Estacao_Metro_id, possui.fk_Linha_ID, Estacao_Metro.Ativo
+FROM Linha INNER JOIN (SELECT DISTINCT possui.fk_Estacao_Metro_id, possui.fk_Linha_ID, Estacao_Metro.Ativo
 FROM possui INNER JOIN Estacao_Metro on possui.fk_Estacao_Metro_id = Estacao_Metro.id) as RelacaoEstacaoMetro
 ON Linha.ID=RelacaoEstacaoMetro.fk_Linha_ID
 WHERE RelacaoEstacaoMetro.Ativo = true
@@ -35,8 +35,11 @@ FROM Estacao_BRT INNER JOIN
 ON corredor.estacaoBRTID = quantidade.estacaoBRTID) AS estacoes
 ON Estacao_BRT.id = estacoes.estacaoBRTID ORDER BY Estacao_BRT.Nome;
 
-CREATE VIEW BRT_Estacoes_Ativas AS
-SELECT Corredor.Corredor, COUNT(Estacao_BRT.id)
-FROM Corredor INNER JOIN Estacao_BRT ON Corredor.estacaoBRTID=Estacao_BRT.id
-GROUP BY Corredor.Corredor_PK
-HAVING Estacao._BRT.Ativo = true;
+
+SELECT corredor.Corredor, COUNT(Estacao_BRT.id)
+FROM corredor INNER JOIN Estacao_BRT ON Corredor.estacaoBRTID=Estacao_BRT.id
+WHERE Estacao_BRT.Ativo = true
+GROUP BY corredor.Corredor_PK;
+
+select * from metro;
+select * from brt;
