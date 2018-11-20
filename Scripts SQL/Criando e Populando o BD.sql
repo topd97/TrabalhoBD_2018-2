@@ -3,9 +3,9 @@ drop schema trabalhobd;
 create schema trabalhoBD;
 use trabalhoBD;
 CREATE TABLE Metro (
-    inauguracao DATE,
-    quantEstacoes INT,
-    nome_empresa VARCHAR (50),
+    inauguracao DATE NOT NULL,
+    quantEstacoes INT NOT NULL DEFAULT 0,
+    nome_empresa VARCHAR (50) NOT NULL,
     logo BLOB,
     ID INT PRIMARY KEY,
     passageiros INT
@@ -13,52 +13,52 @@ CREATE TABLE Metro (
 
 CREATE TABLE BRT (
     passageiros INT,
-    quantEstacoes INT,
-    nomeEmpresa VARCHAR(20),
-    tamanho INT,
+    quantEstacoes INT NOT NULL DEFAULT 0,
+    nomeEmpresa VARCHAR(20) NOT NULL,
+    tamanho INT NOT NULL DEFAULT 0,
     logo BLOB,
     ID INT PRIMARY KEY
 );
 
 CREATE TABLE Estacao_Metro (
-    Bicicletario BOOLEAN,
-    FlgAtm BOOLEAN,
-    elevador BOOLEAN,
+    Bicicletario BOOLEAN NOT NULL DEFAULT FALSE,
+    FlgAtm BOOLEAN NOT NULL DEFAULT FALSE,
+    elevador BOOLEAN NOT NULL DEFAULT FALSE,
     IntegraOnibus BOOLEAN,
     IntegraBRT BOOLEAN,
     IntegraVLT BOOLEAN,
     id INT PRIMARY KEY,
-    Nome VARCHAR(50),
+    Nome VARCHAR(50) NOT NULL,
     Status VARCHAR(20),
-    Ativo BOOLEAN,
+    Ativo BOOLEAN NOT NULL DEFAULT FALSE,
     IntegraTrem BOOLEAN,
-    DataInauguracao INT,
-    fk_empresa_metro_ID INT
+    DataInauguracao INT NOT NULL,
+    fk_empresa_metro_ID INT NOT NULL 
 );
 
 CREATE TABLE Estacao_BRT (
     integraMetro BOOLEAN,
     id INT PRIMARY KEY,
-    Nome VARCHAR(50),
+    Nome VARCHAR(50) NOT NULL,
     Status VARCHAR(20),
-    Ativo BOOLEAN,
+    Ativo BOOLEAN NOT NULL,
     IntegraTrem BOOLEAN,
     integraAeroporto boolean,
-    X DOUBLE,
-    Y DOUBLE,
-    fk_empresa_brt_ID int
+    X DOUBLE NOT NULL,
+    Y DOUBLE NOT NULL,
+    fk_empresa_brt_ID int NOT NULL
 );
 
 CREATE TABLE Linha (
     ID INT PRIMARY KEY,
-    nome VARCHAR(50),
+    nome VARCHAR(50) NOT NULL,
     ShapeSTLength DOUBLE
 );
 
 CREATE TABLE Corredor (
     Corredor_PK INT NOT NULL,
-    Corredor VARCHAR(50),
-    estacaoBRTID INT,
+    Corredor VARCHAR(50) NOT NULL,
+    estacaoBRTID INT NOT NULL,
     PRIMARY KEY (Corredor_PK, estacaoBRTID)
 );
 
@@ -69,7 +69,6 @@ CREATE TABLE possui (
     ano INT,
     PRIMARY KEY(ano, fk_Estacao_Metro_id, fk_Linha_ID)
 );
- 
 ALTER TABLE Corredor ADD CONSTRAINT FK_Corredor_2
     FOREIGN KEY (estacaoBRTID)
     REFERENCES Estacao_BRT (id);
@@ -160,7 +159,7 @@ insert into estacao_metro values(0,1,1,0,0,0,37,'Nossa Senhora da Paz',null,1,0,
 insert into estacao_metro values(0,1,1,0,0,0,38,'Jardim de Alah',null,1,0,2016,1);
 insert into estacao_metro values(0,1,1,0,0,0,39,'Antero de Quental',null,1,0,2016,1);
 insert into estacao_metro values(0,1,0,0,0,0,40,'Sao Conrado',null,1,0,2016,1);
-insert into estacao_metro values(0,1,1,0,1,0,41,'Jardim Oceânico',null,1,0,2016,1);
+insert into estacao_metro values(0,1,1,0,1,0,41,'Jardim Oceanico',null,1,0,2016,1);
 
 insert into estacao_brt values(0,1,'Santa Luzia',1,1,0,0,679342.4694,7471499.5425,1);
 insert into estacao_brt values(0,2,'Maré',1,1,0,0,680236.1565,7472379.5698,1);
@@ -247,7 +246,7 @@ insert into estacao_brt values(0,83,'Nova Barra',1,1,0,0,656686.9454,745398.1534
 insert into estacao_brt values(0,84,'Vendas de Varanda',1,1,0,0,638370.15,7461329.0543,1);
 insert into estacao_brt values(0,85,'Curral Falso',1,1,0,0,636730.4909,7462930.6497,1);
 insert into estacao_brt values(0,86,'Cajueiros',1,1,0,0,636064.6766,7463566.9326,1);
-insert into estacao_brt values(1,87,'Jardim Oceânico',1,1,0,0,673068.8522,7454778.4795,1);
+insert into estacao_brt values(1,87,'Terminal Jd. Oceânico',1,1,0,0,673068.8522,7454778.4795,1);
 insert into estacao_brt values(0,88,'Cittá América',1,1,0,0,671889.6407,7455143.5403,1);
 insert into estacao_brt values(0,89,'Porto dos Cabritos',1,1,0,0,671289.3165,7455405.8147,1);
 insert into estacao_brt values(0,90,'Freeway',1,1,0,0,670638.4666,7455495.8297,1);
@@ -534,6 +533,3 @@ insert into possui values(38,3,702.105,2016);	insert into possui values(38,3,331
 insert into possui values(39,3,942.571,2016);	insert into possui values(39,3,4576.24147975311,2017);
 insert into possui values(40,3,652.257,2016);	insert into possui values(40,3,3298.73254517411,2017);
 insert into possui values(41,3,2797.793,2016);	insert into possui values(41,3,10835.478865424,2017);
-
-UPDATE Estacao_Metro SET Nome='Terminal Jd. Oceânico' WHERE id = 41;
-UPDATE Estacao_BRT SET Nome='Terminal Jd. Oceânico' WHERE id = 87;
