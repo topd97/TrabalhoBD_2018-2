@@ -3,9 +3,9 @@ drop schema trabalhobd;
 create schema trabalhoBD;
 use trabalhoBD;
 CREATE TABLE Metro (
-    inauguracao DATE,
-    quantEstacoes INT,
-    nome_empresa VARCHAR (50),
+    inauguracao DATE NOT NULL,
+    quantEstacoes INT NOT NULL DEFAULT 0,
+    nome_empresa VARCHAR (50) NOT NULL,
     logo BLOB,
     ID INT PRIMARY KEY,
     passageiros INT
@@ -13,52 +13,52 @@ CREATE TABLE Metro (
 
 CREATE TABLE BRT (
     passageiros INT,
-    quantEstacoes INT,
-    nomeEmpresa VARCHAR(20),
-    tamanho INT,
+    quantEstacoes INT NOT NULL DEFAULT 0,
+    nomeEmpresa VARCHAR(20) NOT NULL,
+    tamanho INT NOT NULL DEFAULT 0,
     logo BLOB,
     ID INT PRIMARY KEY
 );
 
 CREATE TABLE Estacao_Metro (
-    Bicicletario BOOLEAN,
-    FlgAtm BOOLEAN,
-    elevador BOOLEAN,
+    Bicicletario BOOLEAN NOT NULL DEFAULT FALSE,
+    FlgAtm BOOLEAN NOT NULL DEFAULT FALSE,
+    elevador BOOLEAN NOT NULL DEFAULT FALSE,
     IntegraOnibus BOOLEAN,
     IntegraBRT BOOLEAN,
     IntegraVLT BOOLEAN,
     id INT PRIMARY KEY,
-    Nome VARCHAR(50),
+    Nome VARCHAR(50) NOT NULL,
     Status VARCHAR(20),
-    Ativo BOOLEAN,
+    Ativo BOOLEAN NOT NULL DEFAULT FALSE,
     IntegraTrem BOOLEAN,
-    DataInauguracao INT,
-    fk_empresa_metro_ID INT
+    DataInauguracao INT NOT NULL,
+    fk_empresa_metro_ID INT NOT NULL 
 );
 
 CREATE TABLE Estacao_BRT (
     integraMetro BOOLEAN,
     id INT PRIMARY KEY,
-    Nome VARCHAR(50),
+    Nome VARCHAR(50) NOT NULL,
     Status VARCHAR(20),
-    Ativo BOOLEAN,
+    Ativo BOOLEAN NOT NULL,
     IntegraTrem BOOLEAN,
     integraAeroporto boolean,
-    X DOUBLE,
-    Y DOUBLE,
-    fk_empresa_brt_ID int
+    X DOUBLE NOT NULL,
+    Y DOUBLE NOT NULL,
+    fk_empresa_brt_ID int NOT NULL
 );
 
 CREATE TABLE Linha (
     ID INT PRIMARY KEY,
-    nome VARCHAR(50),
+    nome VARCHAR(50) NOT NULL,
     ShapeSTLength DOUBLE
 );
 
 CREATE TABLE Corredor (
     Corredor_PK INT NOT NULL,
-    Corredor VARCHAR(50),
-    estacaoBRTID INT,
+    Corredor VARCHAR(50) NOT NULL,
+    estacaoBRTID INT NOT NULL,
     PRIMARY KEY (Corredor_PK, estacaoBRTID)
 );
 
@@ -69,7 +69,6 @@ CREATE TABLE possui (
     ano INT,
     PRIMARY KEY(ano, fk_Estacao_Metro_id, fk_Linha_ID)
 );
- 
 ALTER TABLE Corredor ADD CONSTRAINT FK_Corredor_2
     FOREIGN KEY (estacaoBRTID)
     REFERENCES Estacao_BRT (id);
