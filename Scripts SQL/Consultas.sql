@@ -11,7 +11,7 @@ FROM Metro INNER JOIN Estacao_Metro ON Metro.ID = Estacao_Metro.fk_empresa_metro
 WHERE year(Metro.inauguracao) = Estacao_Metro.DataInauguracao);
 
 /* quantidade de estações ativas por linha de metro
- * Possui função de agregação
+ * Possui junção de três ou mais relações
  */
 SELECT Linha.nome, COUNT(fk_Estacao_Metro_id) as quant
 FROM Linha INNER JOIN (SELECT DISTINCT possui.fk_Estacao_Metro_id, possui.fk_Linha_ID, Estacao_Metro.Ativo
@@ -54,6 +54,18 @@ SELECT ano, SUM(Transporta) as TotalPessoas
 FROM possui
 GROUP BY ano;
 
+/* Informa as estações de metro com integração com BRT e com qual corredor acontece esta integração
+* possui junção de três ou mais relações
+*/
+SELECT DISTINCT Estacao_Metro_Full.id as estacaoMetroID, BRTcomMetro.estacaoBRTID, Estacao_Metro_Full.Nome, BRTcomMetro.Corredor, Estacao_Metro_Full.Linha
+FROM (SELECT * FROM Estacao_Metro INNER JOIN (SELECT DISTINCT Linha.ID as idLinha, nome as Linha, fk_Estacao_Metro_id
+											FROM Linha INNER JOIN possui on Linha.ID = possui.fk_Linha_ID) 
+                                            as LinhaIDMetro on Estacao_Metro.id=LinhaIDMetro.fk_Estacao_Metro_id 
+                                            WHERE IntegraBRT = true) as Estacao_Metro_Full 
+NATURAL INNER JOIN (SELECT Corredor.estacaoBRTID, Nome, Corredor.Corredor
+						FROM Corredor NATURAL INNER JOIN (SELECT id as estacaoBRTID, Nome, integraMetro
+															FROM Estacao_BRT
+															WHERE integraMetro = true) AS BRTcomMetro_parcial) AS BRTcomMetro;  
 
 SELECT *
 FROM Metro; 
@@ -62,10 +74,10 @@ FROM BRT;
 SELECT *
 FROM Estacao_Metro;  
 SELECT *
-FROM Estacao_BRT; 
+FROM Estacao_BRT;
+SELECT *
+FROM Corredor; 
 SELECT *
 FROM Linha;
 SELECT *
-FROM Corredor;
-SELECT *
-FROM possui;   
+FROM possui; 
