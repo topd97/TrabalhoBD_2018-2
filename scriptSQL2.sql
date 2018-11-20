@@ -110,9 +110,7 @@ ALTER TABLE possui ADD CONSTRAINT FK_possui_3
     REFERENCES Linha (ID)
     ON DELETE RESTRICT;
     
-
-alter table estacao_metro add column DataInauguracao int;
-
+/* populando o banco de dados */
 
 insert into estacao_metro values(1,true,1,0,0,0,1,'Pavuna',null,1,1,1998);
 insert into estacao_metro values(1,1,1,0,0,0,2,'Engenheiro Rubens Paiva',null,1,0,1998);
@@ -155,8 +153,6 @@ insert into estacao_metro values(0,1,1,0,0,0,38,'Jardim de Alah',null,1,0,2016);
 insert into estacao_metro values(0,1,1,0,0,0,39,'Antero de Quental',null,1,0,2016);
 insert into estacao_metro values(0,1,0,0,0,0,40,'Sao Conrado',null,1,0,2016);
 insert into estacao_metro values(0,1,1,0,1,0,41,'Jardim Oceanico',null,1,0,2016);
-select * from estacao_metro;
-
 
 
 insert into estacao_brt values(0,1,'Santa Luzia',1,1,0,0,679342.4694,7471499.5425);
@@ -323,8 +319,8 @@ insert into estacao_brt values(0,163,'Terminal Sulacap',1,1,0,0,664220.4598,7468
 select * from estacao_brt;
 
 
-insert into linha values(1,'Linha 2',31438.0090390294);
-insert into linha values(2,'Linha 1',17377.6491454839);
-insert into linha values(3,'Linha 4',12129.1343418009);
+insert into linha values(true, 31438.0090390294, 1, 'Linha 2');
+insert into linha values(true, 17377.6491454839, 2, 'Linha 1');
+insert into linha values(true, 12129.1343418009, 3,'Linha 4');
 select * from linha;
 
