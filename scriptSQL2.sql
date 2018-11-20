@@ -90,6 +90,12 @@ alter table estacao_metro add constraint FK_estacao_metro_1
 	foreign key (fk_empresa_metro_ID)
     references metro (ID);
 
+
+insert into brt values(450000,163,'consórcio BRT',125,null,1);
+/*após fazer esse insert precisa adicionar a imagem ainda*/
+
+insert into metro values(date("1979-03-01"), 41, 'Metro Rio', null, 1, 850000);
+
 insert into estacao_metro values(1,true,1,0,0,0,1,'Pavuna',null,1,1,1998,1);
 insert into estacao_metro values(1,1,1,0,0,0,2,'Engenheiro Rubens Paiva',null,1,0,1998,1);
 insert into estacao_metro values(0,0,0,0,0,0,3,'Acari / Fazenda Botafogo',null,1,0,1998,1);
@@ -298,11 +304,6 @@ insert into linha values(1,'Linha 2',31438.0090390294);
 insert into linha values(2,'Linha 1',17377.6491454839);
 insert into linha values(3,'Linha 4',12129.1343418009);
 
-insert into brt values(450000,163,'consórcio BRT',125,null,1);
-/*após fazer esse insert precisa adicionar a imagem ainda*/
-
-insert into metro values(date("1979-03-01"), 41, 'Metro Rio', null, 1, 850000);
-
 insert into corredor values(1,'TransCarioca',1);
 insert into corredor values(1,'TransCarioca',2);
 insert into corredor values(1,'TransCarioca',3);
@@ -504,9 +505,9 @@ insert into possui values(15,2,1224,1995);	insert into possui values(15,2,1399.5
 insert into possui values(8,2,160.474,1996);	insert into possui values(8,2,413.646,1997);	insert into possui values(8,2,457.143,1998);	insert into possui values(8,2,514.297,1999);	insert into possui values(8,2,566.991,2000);	insert into possui values(8,2,532.816,2001);	insert into possui values(8,2,516,2002);	insert into possui values(8,2,515.216,2003);	insert into possui values(8,2,593.723,2004);	insert into possui values(8,2,635.632,2005);	insert into possui values(8,2,653.595,2006);	insert into possui values(8,2,680,2007);	insert into possui values(8,2,674.553,2008);	insert into possui values(8,2,688.28,2009);	insert into possui values(8,2,675.088,2010);	insert into possui values(8,2,721.821,2011);	insert into possui values(8,2,746.402,2012);	insert into possui values(8,2,764.578,2013);	insert into possui values(8,2,822.488,2014);	insert into possui values(8,2,794.612,2015);	insert into possui values(8,2,778.75,2016);	insert into possui values(8,2,707.893089464169,2017);
 insert into possui values(13,2,618,1995);	insert into possui values(13,2,751.093,1996);	insert into possui values(13,2,507.96,1997);	insert into possui values(13,2,660.996,1998);	insert into possui values(13,2,981.701,1999);	insert into possui values(13,2,1067.175,2000);	insert into possui values(13,2,1022.633,2001);	insert into possui values(13,2,988,2002);	insert into possui values(13,2,998.774,2003);	insert into possui values(13,2,1066.161,2004);	insert into possui values(13,2,1101.729,2005);	insert into possui values(13,2,1205.031,2006);	insert into possui values(13,2,1264,2007);	insert into possui values(13,2,1266.91,2008);	insert into possui values(13,2,1216.836,2009);	insert into possui values(13,2,1268.439,2010);	insert into possui values(13,2,1452.258,2011);	insert into possui values(13,2,1590.424,2012);	insert into possui values(13,2,1734.318,2013);	insert into possui values(13,2,2267.76,2014);	insert into possui values(13,2,2241.587,2015);	insert into possui values(13,2,2278.642,2016);	insert into possui values(13,2,1990.0673689365,2017);
 insert into possui values(7,2,997.797,1996);	insert into possui values(7,2,3241.51,1997);	insert into possui values(7,2,3227.763,1998);	insert into possui values(7,2,2430.073,1999);	insert into possui values(7,2,2529.59,2000);	insert into possui values(7,2,2566.734,2001);	insert into possui values(7,2,2608,2002);	insert into possui values(7,2,2636.485,2003);	insert into possui values(7,2,2883.34,2004);	insert into possui values(7,2,3207.177,2005);	insert into possui values(7,2,3378.797,2006);	insert into possui values(7,2,3671,2007);	insert into possui values(7,2,3642.887,2008);	insert into possui values(7,2,3637.354,2009);	insert into possui values(7,2,3669.656,2010);	insert into possui values(7,2,4076.601,2011);	insert into possui values(7,2,4243.57,2012);	insert into possui values(7,2,4212.675,2013);	insert into possui values(7,2,4942.726,2014);	insert into possui values(7,2,5569.811,2015);	insert into possui values(7,2,5898.967,2016);	insert into possui values(7,2,5026.55707321192,2017);
-insert into possui values(37,4,724.54,2016);	insert into possui values(37,4,4020.49502201533,2017);
-insert into possui values(38,4,702.105,2016);	insert into possui values(38,4,3310.38510218119,2017);
-insert into possui values(39,4,942.571,2016);	insert into possui values(39,4,4576.24147975311,2017);
-insert into possui values(40,4,652.257,2016);	insert into possui values(40,4,3298.73254517411,2017);
-insert into possui values(41,4,2797.793,2016);	insert into possui values(41,4,10835.478865424,2017);
+insert into possui values(37,3,724.54,2016);	insert into possui values(37,3,4020.49502201533,2017);
+insert into possui values(38,3,702.105,2016);	insert into possui values(38,3,3310.38510218119,2017);
+insert into possui values(39,3,942.571,2016);	insert into possui values(39,3,4576.24147975311,2017);
+insert into possui values(40,3,652.257,2016);	insert into possui values(40,3,3298.73254517411,2017);
+insert into possui values(41,3,2797.793,2016);	insert into possui values(41,3,10835.478865424,2017);
 
