@@ -13,14 +13,12 @@ WHERE year(Metro.inauguracao) = Estacao_Metro.DataInauguracao);
 /* quantidade de estações ativas por linha de metro
  * Possui junção de três ou mais relações
  */
-SELECT Linha.nome, COUNT(DISTINCT fk_Estacao_Metro_id) as quant
-FROM Linha INNER JOIN (SELECT possui.fk_Estacao_Metro_id, possui.fk_Linha_ID, Estacao_Metro.Ativo
+SELECT Linha.nome, COUNT(fk_Estacao_Metro_id) as quant
+FROM Linha INNER JOIN (SELECT DISTINCT possui.fk_Estacao_Metro_id, possui.fk_Linha_ID, Estacao_Metro.Ativo
 FROM possui INNER JOIN Estacao_Metro on possui.fk_Estacao_Metro_id = Estacao_Metro.id) as RelacaoEstacaoMetro
 ON Linha.ID=RelacaoEstacaoMetro.fk_Linha_ID
 WHERE RelacaoEstacaoMetro.Ativo = true
 GROUP BY RelacaoEstacaoMetro.fk_Linha_ID;
-
-
 
 /* Informa as estações de BRT que possuem Bicicletario
 * Inclui apenas seleção e projeção
@@ -52,6 +50,7 @@ GROUP BY Corredor.Corredor_PK;
 /* Informa o total de pessoas transportadas pelo metro por ano
 * possui função de agregação
 */
+CREATE VIEW TotalAno_Metro AS
 SELECT ano, SUM(Transporta) as TotalPessoas
 FROM possui
 GROUP BY ano;
@@ -68,18 +67,17 @@ NATURAL INNER JOIN (SELECT Corredor.estacaoBRTID, Nome, Corredor.Corredor
 						FROM Corredor NATURAL INNER JOIN (SELECT id as estacaoBRTID, Nome, integraMetro
 															FROM Estacao_BRT
 															WHERE integraMetro = true) AS BRTcomMetro_parcial) AS BRTcomMetro;  
+/* Quantidade de estações que possuem pelo menos uma integração, quantas são por onibus, quantas são por BRT e quantas são por VLT
+ * Possui função de agregação
+ */
+select count(*) as TotalDeIntegracao, sum(IntegraOnibus) as BUS,sum(IntegraBRT) as BRT,sum(IntegraVLT) as VLT
+from estacao_metro
+where IntegraOnibus = 1 or IntegraBRT = 1 or IntegraVLT = 1;
 
-SELECT *
-FROM Metro; 
-SELECT *
-FROM BRT;
-SELECT *
-FROM Estacao_Metro;  
-SELECT *
-FROM Estacao_BRT;
-SELECT *
-FROM Corredor; 
-SELECT *
-FROM Linha;
-SELECT *
-FROM possui; 
+/* Exibe os anos que a quantidade de clientes do metro foi menor que a média
+* subconsulta aninhada
+*/
+SELECT ano, TotalPessoas
+FROM TotalAno_Metro
+WHERE TotalPessoas < (SELECT AVG(TotalPessoas)
+FROM TotalAno_Metro);
