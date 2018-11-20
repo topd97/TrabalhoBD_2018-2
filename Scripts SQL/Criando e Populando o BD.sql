@@ -535,10 +535,5 @@ insert into possui values(39,3,942.571,2016);	insert into possui values(39,3,457
 insert into possui values(40,3,652.257,2016);	insert into possui values(40,3,3298.73254517411,2017);
 insert into possui values(41,3,2797.793,2016);	insert into possui values(41,3,10835.478865424,2017);
 
-UPDATE Estacao_Metro
-SET Nome='Jardim Oceânico'
-WHERE id = 41;
-
-UPDATE Estacao_BRT
-SET Nome='Jardim Oceânico'
-WHERE id = 87;
+UPDATE Estacao_Metro SET Nome='Terminal Jd. Oceânico' WHERE id = 41;
+UPDATE Estacao_BRT SET Nome='Terminal Jd. Oceânico' WHERE id = 87;
