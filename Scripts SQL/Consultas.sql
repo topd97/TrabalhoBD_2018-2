@@ -1,12 +1,11 @@
-
-/* Retornar o nome das estações que não foram construidas no ano de inauguração do metro
- * possui operação sobre conjuntos (diferença)
- */
 use trabalhobd;
 
-SELECT Nome, DataInauguracao
+/* Retornar o nome das estações que não foram construidas no ano de inauguração do metro
+ * não está sendo utilizada mas é uma consulta tão legal
+ */
+SELECT Nome
 FROM Estacao_Metro
-WHERE DataInauguracao not in (SELECT DISTINCT DataInauguracao 
+WHERE DataInauguracao NOT IN (SELECT DISTINCT DataInauguracao 
 FROM Metro INNER JOIN Estacao_Metro ON Metro.ID = Estacao_Metro.fk_empresa_metro_ID
 WHERE year(Metro.inauguracao) = Estacao_Metro.DataInauguracao);
 
@@ -81,3 +80,14 @@ SELECT ano, TotalPessoas FROM
 (SELECT ano, SUM(Transporta) as TotalPessoas FROM Principal GROUP BY ano) AS TotalAno_Metro
 WHERE TotalPessoas < (SELECT AVG(TotalPessoas)
 FROM (SELECT ano, SUM(Transporta) as TotalPessoas FROM Principal GROUP BY ano) AS TotalAno_Metro2);
+
+/* Retorna todas as estações cuja linha principal não é a Linha 1
+ * Possui uma juncao externa
+ */
+SELECT Nome FROM Estacao_Metro LEFT JOIN (SELECT fk_Estacao_Metro_id FROM Principal WHERE Principal.fk_Linha_ID = 1) AS Linha1 
+ON Estacao_Metro.id = Linha1.fk_Estacao_Metro_id WHERE Linha1.fk_Estacao_Metro_id IS NULL;
+
+/* Todas as estações de metrô ou brt
+ * Utiliza operação de conjuntos
+ */
+ (SELECT Nome FROM Estacao_Metro) UNION (SELECT Nome FROM Estacao_Brt)
