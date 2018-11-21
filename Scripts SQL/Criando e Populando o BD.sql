@@ -6,7 +6,7 @@ CREATE TABLE Metro (
     inauguracao DATE NOT NULL,
     quantEstacoes INT NOT NULL DEFAULT 0,
     nome_empresa VARCHAR (50) NOT NULL,
-    logo BLOB,
+    logo VARCHAR (100),
     ID INT PRIMARY KEY,
     passageiros INT
 );
@@ -16,7 +16,7 @@ CREATE TABLE BRT (
     quantEstacoes INT NOT NULL DEFAULT 0,
     nomeEmpresa VARCHAR(20) NOT NULL,
     tamanho INT NOT NULL DEFAULT 0,
-    logo BLOB,
+    logo VARCHAR (100),
     ID INT PRIMARY KEY
 );
 
@@ -109,11 +109,6 @@ alter table estacao_metro add constraint FK_estacao_metro_1
     references metro (ID);
 
 
-insert into brt values(450000,0,'consórcio BRT',125,null,1);
-/*após fazer esse insert precisa adicionar a imagem ainda*/
-
-insert into metro values(date("1979-03-01"), 0, 'Metro Rio', null, 1, 850000);
-
 /* adicionado por joyce */
 DELIMITER $$ 
 CREATE TRIGGER Tgr_Estacao_Metro_Insert AFTER INSERT ON estacao_metro
@@ -135,6 +130,11 @@ FOR EACH ROW BEGIN
 UPDATE brt SET quantEstacoes = quantEstacoes  - 1 WHERE ID = OLD.fk_empresa_brt_ID;
 END $$
 DELIMITER ;
+
+insert into brt values(450000,0,'consorcio BRT',125,'https://bit.ly/2DzQO0M',1);
+/*apÃ³s fazer esse insert precisa adicionar a imagem ainda*/
+
+insert into metro values(date("1979-03-01"), 0, 'Metro Rio', 'https://bit.ly/2TxqI4c', 1, 850000);
 
 insert into estacao_metro values(1,true,1,0,0,0,1,'Pavuna',null,1,1,1998,1);
 insert into estacao_metro values(1,1,1,0,0,0,2,'Engenheiro Rubens Paiva',null,1,0,1998,1);
