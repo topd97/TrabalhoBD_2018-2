@@ -57,13 +57,14 @@ GROUP BY ano;
 /* Informa as estações de metro com integração com BRT e com qual corredor acontece esta integração
 * possui junção de três ou mais relações
 */
+
 SELECT DISTINCT Estacao_Metro_Full.id as estacaoMetroID, BRTcomMetro.estacaoBRTID, Estacao_Metro_Full.Nome, BRTcomMetro.Corredor, Estacao_Metro_Full.Linha
-FROM (SELECT * FROM Estacao_Metro INNER JOIN (SELECT DISTINCT Linha.ID as idLinha, nome as Linha, EstacaoPossuiLinha.fk_estacao_metro
+FROM (SELECT * FROM Estacao_Metro INNER JOIN (SELECT Linha.ID as idLinha, nome as Linha, EstacaoPossuiLinha.fk_estacao_metro
 											FROM Linha INNER JOIN EstacaoPossuiLinha on Linha.ID = EstacaoPossuiLinha.fk_Linha) 
                                             as LinhaIDMetro on Estacao_Metro.id=LinhaIDMetro.fk_estacao_metro
                                             WHERE IntegraBRT = true) as Estacao_Metro_Full 
-NATURAL INNER JOIN (SELECT Corredor.estacaoBRTID, Nome, Corredor.Corredor
-						FROM Corredor NATURAL INNER JOIN (SELECT id as estacaoBRTID, Nome, integraMetro
+NATURAL LEFT JOIN (SELECT Corredor.estacaoBRTID, Nome, Corredor.Corredor
+						FROM Corredor NATURAL JOIN (SELECT id as estacaoBRTID, Nome, integraMetro
 															FROM Estacao_BRT
 															WHERE integraMetro = true) AS BRTcomMetro_parcial) AS BRTcomMetro;  
 /* Quantidade de estações que possuem pelo menos uma integração, quantas são por onibus, quantas são por BRT e quantas são por VLT
