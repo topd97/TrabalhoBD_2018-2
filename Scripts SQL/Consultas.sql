@@ -12,12 +12,12 @@ WHERE year(Metro.inauguracao) = Estacao_Metro.DataInauguracao);
 /* quantidade de estações ativas por linha de metro
  * Possui junção de três ou mais relações
  */
-SELECT Linha.nome, COUNT(fk_Estacao_Metro_id) as quant
-FROM Linha INNER JOIN (SELECT DISTINCT possui.fk_Estacao_Metro_id, possui.fk_Linha_ID, Estacao_Metro.Ativo
-FROM possui INNER JOIN Estacao_Metro on possui.fk_Estacao_Metro_id = Estacao_Metro.id) as RelacaoEstacaoMetro
-ON Linha.ID=RelacaoEstacaoMetro.fk_Linha_ID
+SELECT Linha.nome, COUNT(fk_estacao_metro) as quant
+FROM Linha INNER JOIN (SELECT DISTINCT EstacaoPossuiLinha.fk_estacao_metro, EstacaoPossuiLinha.fk_Linha, Estacao_Metro.Ativo
+FROM EstacaoPossuiLinha INNER JOIN Estacao_Metro on EstacaoPossuiLinha.fk_estacao_metro = Estacao_Metro.id) as RelacaoEstacaoMetro
+ON Linha.ID=RelacaoEstacaoMetro.fk_Linha
 WHERE RelacaoEstacaoMetro.Ativo = true
-GROUP BY RelacaoEstacaoMetro.fk_Linha_ID;
+GROUP BY RelacaoEstacaoMetro.fk_Linha;
 
 /* Informa as estações de BRT que possuem Bicicletario
 * Inclui apenas seleção e projeção
