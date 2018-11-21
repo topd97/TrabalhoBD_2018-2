@@ -603,3 +603,11 @@ insert into EstacaoPossuiLinha values(38,3);
 insert into EstacaoPossuiLinha values(39,3);
 insert into EstacaoPossuiLinha values(40,3);
 insert into EstacaoPossuiLinha values(41,3);
+
+
+SELECT Linha.nome, COUNT(fk_Estacao_Metro_id) AS quant
+                                           FROM Linha INNER JOIN (SELECT DISTINCT EstacaoPossuiLinha.fk_Estacao_Metro_id, EstacaoPossuiLinha.fk_Linha_ID, Estacao_Metro.Ativo
+                                           FROM EstacaoPossuiLinha INNER JOIN Estacao_Metro ON EstacaoPossuiLinha.fk_Estacao_Metro_id = Estacao_Metro.id) AS RelacaoEstacaoMetro
+                                           ON Linha.ID = RelacaoEstacaoMetro.fk_Linha_ID
+                                           WHERE RelacaoEstacaoMetro.Ativo = true
+                                           GROUP BY RelacaoEstacaoMetro.fk_Linha_ID;
