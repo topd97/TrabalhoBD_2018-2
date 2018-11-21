@@ -52,16 +52,16 @@ GROUP BY Corredor.Corredor_PK;
 */
 CREATE VIEW TotalAno_Metro AS
 SELECT ano, SUM(Transporta) as TotalPessoas
-FROM possui
+FROM Principal
 GROUP BY ano;
 
 /* Informa as estações de metro com integração com BRT e com qual corredor acontece esta integração
 * possui junção de três ou mais relações
 */
 SELECT DISTINCT Estacao_Metro_Full.id as estacaoMetroID, BRTcomMetro.estacaoBRTID, Estacao_Metro_Full.Nome, BRTcomMetro.Corredor, Estacao_Metro_Full.Linha
-FROM (SELECT * FROM Estacao_Metro INNER JOIN (SELECT DISTINCT Linha.ID as idLinha, nome as Linha, fk_Estacao_Metro_id
-											FROM Linha INNER JOIN possui on Linha.ID = possui.fk_Linha_ID) 
-                                            as LinhaIDMetro on Estacao_Metro.id=LinhaIDMetro.fk_Estacao_Metro_id 
+FROM (SELECT * FROM Estacao_Metro INNER JOIN (SELECT DISTINCT Linha.ID as idLinha, nome as Linha, EstacaoPossuiLinha.fk_estacao_metro
+											FROM Linha INNER JOIN EstacaoPossuiLinha on Linha.ID = EstacaoPossuiLinha.fk_Linha) 
+                                            as LinhaIDMetro on Estacao_Metro.id=LinhaIDMetro.fk_estacao_metro
                                             WHERE IntegraBRT = true) as Estacao_Metro_Full 
 NATURAL INNER JOIN (SELECT Corredor.estacaoBRTID, Nome, Corredor.Corredor
 						FROM Corredor NATURAL INNER JOIN (SELECT id as estacaoBRTID, Nome, integraMetro
@@ -77,7 +77,7 @@ where IntegraOnibus = 1 or IntegraBRT = 1 or IntegraVLT = 1;
 /* Exibe os anos que a quantidade de clientes do metro foi menor que a média
 * subconsulta aninhada
 */
-SELECT ano, TotalPessoas
-FROM TotalAno_Metro
+SELECT ano, TotalPessoas FROM 
+(SELECT ano, SUM(Transporta) as TotalPessoas FROM Principal GROUP BY ano) AS TotalAno_Metro
 WHERE TotalPessoas < (SELECT AVG(TotalPessoas)
-FROM TotalAno_Metro);
+FROM (SELECT ano, SUM(Transporta) as TotalPessoas FROM Principal GROUP BY ano) AS TotalAno_Metro2);

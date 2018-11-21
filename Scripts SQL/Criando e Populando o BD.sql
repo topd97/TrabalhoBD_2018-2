@@ -340,8 +340,8 @@ insert into estacao_brt values(0,160,'Magalhães Bastos',1,1,0,0,662717.0295,747
 insert into estacao_brt values(0,161,'Vila Militar',1,1,1,0,664022.2312,7470840.7974,1);
 insert into estacao_brt values(0,163,'Terminal Sulacap',1,1,0,0,664220.4598,7468441.5413,1);
 
-insert into linha values(1,'Linha 2',31438.0090390294);
-insert into linha values(2,'Linha 1',17377.6491454839);
+insert into linha values(1,'Linha 1',17377.6491454839);
+insert into linha values(2,'Linha 2',31438.0090390294);
 insert into linha values(3,'Linha 4',12129.1343418009);
 
 insert into corredor values(1,'TransCarioca',1);
